@@ -1,9 +1,10 @@
-package edu.harvard.hms.catalyst.wacct;
+package edu.harvard.hms.catalyst.wacct.service;
 
 /**
  * @author Bill Simons
  */
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,6 +16,7 @@ import org.jacoco.report.DirectorySourceFileLocator;
 import org.jacoco.report.FileMultiReportOutput;
 import org.jacoco.report.IReportVisitor;
 import org.jacoco.report.html.HTMLFormatter;
+import org.springframework.stereotype.Component;
 
 /**
  * This example creates a HTML report for eclipse like projects based on a
@@ -24,11 +26,11 @@ import org.jacoco.report.html.HTMLFormatter;
  * The class files under test must be compiled with debug information, otherwise
  * source highlighting will not work.
  */
+@Component
 public class ReportGenerator {
 
     private final String title = "foo";
 
-    private final File executionDataFile;
     private final File classesDirectory;
     private final File sourceDirectory;
     private final File reportDirectory;
@@ -39,7 +41,6 @@ public class ReportGenerator {
      * Create a new generator based for the given project.
      */
     public ReportGenerator() {
-        this.executionDataFile = new File("/Users/bsimons/qwacc/target/dump.exec");
         this.classesDirectory = new File("/Users/bsimons/.m2/repository/edu/harvard/catalyst/scheduler/scheduler-core/2.17.0/scheduler-core-2.17.0.jar");
         this.sourceDirectory = new File("/Users/bsimons/scheduler/scheduler/target/");
         this.reportDirectory = new File("/Users/bsimons/qwacc/target/coveragereport");
@@ -49,12 +50,13 @@ public class ReportGenerator {
      * Create the report.
      *
      * @throws IOException
+     * @param executionData
      */
-    public void create() throws IOException {
+    public void generateReport(byte[] executionData) throws IOException {
 
         // Read the jacoco.exec file. Multiple data files could be merged
         // at this point
-        loadExecutionData();
+        loadExecutionData(executionData);
 
         // Run the structure analyzer on a single class folder to build up
         // the coverage model. The process would be similar if your classes
@@ -94,9 +96,9 @@ public class ReportGenerator {
 
     }
 
-    private void loadExecutionData() throws IOException {
+    private void loadExecutionData(byte[] executionData) throws IOException {
         execFileLoader = new ExecFileLoader();
-        execFileLoader.load(executionDataFile);
+        execFileLoader.load(new ByteArrayInputStream(executionData));
     }
 
     private IBundleCoverage analyzeStructure() throws IOException {
@@ -107,17 +109,5 @@ public class ReportGenerator {
         analyzer.analyzeAll(classesDirectory);
 
         return coverageBuilder.getBundle(title);
-    }
-
-    /**
-     * Starts the report generation process
-     *
-     * @param args Arguments to the application. This will be the location of the
-     *             eclipse projects that will be used to generate reports for
-     * @throws IOException
-     */
-    public static void main(final String[] args) throws IOException {
-        final ReportGenerator generator = new ReportGenerator();
-        generator.create();
     }
 }
