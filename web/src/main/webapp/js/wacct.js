@@ -1,6 +1,6 @@
 function captureData(event) {
     $.blockUI();
-    $.post('rest/capture', {data: ''}, function (data) {
+    $.post('rest/capture', function (data) {
         $.unblockUI();
         alert("Capture Successful");
         displayCoverageList();
@@ -9,7 +9,7 @@ function captureData(event) {
 
 function resetData(event) {
     $.blockUI();
-    $.post('rest/reset', {data: ''}, function (data) {
+    $.post('rest/reset', function (data) {
         $.unblockUI();
         alert("Reset Successful");
     });
