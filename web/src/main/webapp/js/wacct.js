@@ -13,7 +13,7 @@ function captureData(event) {
 }
 
 function resetData(event) {
-    $.blockUI();
+    //$.blockUI();
     $.ajax({
         url: 'rest/reset',
         type: 'POST',
