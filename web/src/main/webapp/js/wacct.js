@@ -1,6 +1,15 @@
 function captureData(event) {
     $.blockUI();
-    $.post('rest/capture', function (data) {
+    var url = 'rest/capture';
+    var jqxhr = $.post(url, data);
+
+    jqxhr.success(function (result) {
+        alert("ajax success");
+    });
+    jqxhr.error(function () {
+        alert("ajax error");
+    });
+    jqxhr.complete(function () {
         $.unblockUI();
         alert("Capture Successful");
         displayCoverageList();
@@ -17,14 +26,14 @@ function resetData(event) {
 
 function displayCoverageList() {
     var out = "<div> <h2>Coverage List</h2> ";
-    $.post('rest/list', {data: ''}, function (data) {
+    $.post('rest/list', function (data) {
         console.log(data);
-        var parsedData = $.parseJSON(data);
-        console.log(parsedData);
 
         out +=  " <ul> " +
 
-        $.each(parsedData, function (key, val) {
+        $.each(data, function (key, val) {
+            console.log(val.context);
+            console.log(val.name);
             var url = "#"+val.context;
             out += " <li><a href='"+url+"'> " + val.name + "</a></li> ";
         });
