@@ -1,7 +1,7 @@
 function captureData(event) {
     $.blockUI();
     var url = 'rest/capture';
-    var jqxhr = $.post(url, data);
+    var jqxhr = $.post(url, "");
 
     jqxhr.success(function (result) {
         alert("ajax success");
