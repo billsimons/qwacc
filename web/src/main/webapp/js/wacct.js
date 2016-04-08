@@ -18,7 +18,7 @@ function displayCoverageList() {
     $.post('rest/list', function (data) {
         var out = "<div> <h2>Coverage List</h2> <ul> ";
         $.each(data, function (key, val) {
-            var url = "#"+val.context+"/"+val.name;
+            var url = "/"+val.context+"/"+val.name;
             out += " <li><a href='"+url+"'> " + val.name + "</a></li> ";
             console.log(out);
         });
