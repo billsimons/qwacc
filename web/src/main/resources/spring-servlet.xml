@@ -16,5 +16,8 @@
     <bean name="port" class="java.lang.String">
         <constructor-arg index="0" value="6300"/>
     </bean>
+    <bean name="outputDirectory" class="java.lang.String">
+        <constructor-arg index="0" value="/Users/bsimons/qwacc/target/coveragereport"/>
+    </bean>
 </beans>
 

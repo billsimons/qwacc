@@ -7,6 +7,8 @@ package edu.harvard.hms.catalyst.wacct.service;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.CoverageBuilder;
@@ -16,6 +18,8 @@ import org.jacoco.report.DirectorySourceFileLocator;
 import org.jacoco.report.FileMultiReportOutput;
 import org.jacoco.report.IReportVisitor;
 import org.jacoco.report.html.HTMLFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,17 +37,19 @@ public class ReportGenerator {
 
     private final File classesDirectory;
     private final File sourceDirectory;
-    private final File reportDirectory;
+    private final File outputDirectory;
 
     private ExecFileLoader execFileLoader;
 
     /**
      * Create a new generator based for the given project.
+     * @param outputDirectoryName
      */
-    public ReportGenerator() {
+    @Autowired
+    public ReportGenerator(@Qualifier("outputDirectory") String outputDirectoryName) {
         this.classesDirectory = new File("/Users/bsimons/.m2/repository/edu/harvard/catalyst/scheduler/scheduler-core/2.17.0/scheduler-core-2.17.0.jar");
         this.sourceDirectory = new File("/Users/bsimons/scheduler/scheduler/target/");
-        this.reportDirectory = new File("/Users/bsimons/qwacc/target/coveragereport");
+        this.outputDirectory = new File(outputDirectoryName);
     }
 
     /**
@@ -77,7 +83,7 @@ public class ReportGenerator {
         // configuration. In this case we use the defaults
         final HTMLFormatter htmlFormatter = new HTMLFormatter();
         final IReportVisitor visitor = htmlFormatter
-                .createVisitor(new FileMultiReportOutput(reportDirectory));
+                .createVisitor(new FileMultiReportOutput(currentReportDir()));
 
         // Initialize the report with all of the execution and session
         // information. At this point the report doesn't know about the
@@ -94,6 +100,11 @@ public class ReportGenerator {
         // information out
         visitor.visitEnd();
 
+    }
+
+    private File currentReportDir() {
+        //TODO ugly?
+        return new File(outputDirectory, String.valueOf(OffsetDateTime.now().toEpochSecond()));
     }
 
     private void loadExecutionData(byte[] executionData) throws IOException {
