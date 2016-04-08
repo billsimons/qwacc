@@ -36,7 +36,9 @@ function getFormattedDate(date) {
     day = day.length > 1 ? day : '0' + day;
     var hour = date.getHours().toString();
     var min = date.getMinutes().toString();
+    var minutes = min.length > 1 ? min : '0' + min;
     var sec = date.getSeconds().toString();
-    var time = hour+':'+min+':'+sec;
+    var seconds = sec.length > 1 ? sec : '0' + sec;
+    var time = hour+':'+minutes+':'+seconds;
     return month + '/' + day + '/' + year + ' ' + time;
 }
