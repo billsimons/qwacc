@@ -1,4 +1,4 @@
-package edu.harvard.hms.catalyst.qwacc;
+package edu.harvard.hms.catalyst.wacct;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import org.jacoco.core.runtime.RemoteControlWriter;
  *         <code>tcpserver</code> and requests execution data. The collected data is
  *         dumped to a local file.
  */
-public final class Client {
+public final class JacocoTcpClient {
 
     private static final String DESTFILE = "jacoco-client.exec";
 
@@ -84,13 +84,13 @@ public final class Client {
         reader.setExecutionDataVisitor(localWriter);
 
         // Send a dump command and read the response:
-        writer.visitDumpCommand(true, false);
+        writer.visitDumpCommand(true, true);
         reader.read();
 
         socket.close();
         localFile.close();
     }
 
-    private Client() {
+    private JacocoTcpClient() {
     }
 }
