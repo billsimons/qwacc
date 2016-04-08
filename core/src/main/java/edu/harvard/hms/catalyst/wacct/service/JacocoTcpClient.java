@@ -33,10 +33,9 @@ public final class JacocoTcpClient {
 
     public byte[] captureExecutionData() throws IOException {
 
-        try (
-                final ByteArrayOutputStream localStream = new ByteArrayOutputStream();
-                final Socket socket = new Socket(InetAddress.getByName(address), port)
-        ) {
+        try (final ByteArrayOutputStream localStream = new ByteArrayOutputStream();
+             final Socket socket = new Socket(InetAddress.getByName(address), port)) {
+
             final ExecutionDataWriter localWriter = new ExecutionDataWriter(localStream);
 
             final RemoteControlWriter writer = new RemoteControlWriter(socket.getOutputStream());

@@ -4,12 +4,6 @@ package edu.harvard.hms.catalyst.wacct.service;
  * @author Bill Simons
  */
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-
 import org.jacoco.core.analysis.Analyzer;
 import org.jacoco.core.analysis.CoverageBuilder;
 import org.jacoco.core.analysis.IBundleCoverage;
@@ -19,9 +13,13 @@ import org.jacoco.report.FileMultiReportOutput;
 import org.jacoco.report.IReportVisitor;
 import org.jacoco.report.html.HTMLFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 
 /**
  * This example creates a HTML report for eclipse like projects based on a
@@ -61,8 +59,6 @@ public class ReportGenerator {
      */
     public void generateReport(byte[] executionData) throws IOException {
 
-        // Read the jacoco.exec file. Multiple data files could be merged
-        // at this point
         loadExecutionData(executionData);
 
         // Run the structure analyzer on a single class folder to build up
@@ -104,8 +100,7 @@ public class ReportGenerator {
     }
 
     private File currentReportDir() {
-        //TODO ugly?
-        return new File(outputDirectory, String.valueOf(OffsetDateTime.now().toEpochSecond()));
+        return new File(outputDirectory, String.valueOf(new Date().getTime()));
     }
 
     private void loadExecutionData(byte[] executionData) throws IOException {
