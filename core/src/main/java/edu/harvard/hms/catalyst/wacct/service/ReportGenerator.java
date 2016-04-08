@@ -32,10 +32,8 @@ import java.util.Date;
 @Component
 public class ReportGenerator {
 
-    private final String title = "foo";
-
-    private final File classesDirectory;
-    private final File sourceDirectory;
+    private final File classesJar;
+    private final File sourcesDirectory;
     private final File outputDirectory;
 
     private ExecFileLoader execFileLoader;
@@ -43,11 +41,15 @@ public class ReportGenerator {
     /**
      * Create a new generator based for the given project.
      * @param outputDirectoryName
+     * @param sourcesDirectory
+     * @param classesJar
      */
     @Autowired
-    public ReportGenerator(@Value("${wacct.outputDirectory}") String outputDirectoryName) {
-        this.classesDirectory = new File("/Users/bsimons/.m2/repository/edu/harvard/catalyst/scheduler/scheduler-core/2.17.0/scheduler-core-2.17.0.jar");
-        this.sourceDirectory = new File("/Users/bsimons/scheduler/scheduler/target/");
+    public ReportGenerator(@Value("${wacct.outputDirectory}") String outputDirectoryName,
+            @Value("${wacct.sourcesDirectory}")File sourcesDirectory, @Value("${wacct.classesJar}")File classesJar) {
+
+        this.classesJar = classesJar;
+        this.sourcesDirectory = sourcesDirectory;
         this.outputDirectory = new File(outputDirectoryName);
     }
 
@@ -67,20 +69,21 @@ public class ReportGenerator {
         // class folder and each jar you want in your report. If you have
         // more than one bundle you will need to add a grouping node to your
         // report
-        final IBundleCoverage bundleCoverage = analyzeStructure();
+        long time = new Date().getTime();
 
-        createReport(bundleCoverage);
+        final IBundleCoverage bundleCoverage = analyzeStructure(String.valueOf(time));
+        createReport(bundleCoverage, time);
 
     }
 
-    private void createReport(final IBundleCoverage bundleCoverage)
+    private void createReport(final IBundleCoverage bundleCoverage, final long time)
             throws IOException {
 
         // Create a concrete report visitor based on some supplied
         // configuration. In this case we use the defaults
         final HTMLFormatter htmlFormatter = new HTMLFormatter();
         final IReportVisitor visitor = htmlFormatter
-                .createVisitor(new FileMultiReportOutput(currentReportDir()));
+                .createVisitor(new FileMultiReportOutput(currentReportDir(time)));
 
         // Initialize the report with all of the execution and session
         // information. At this point the report doesn't know about the
@@ -91,7 +94,7 @@ public class ReportGenerator {
         // Populate the report structure with the bundle coverage information.
         // Call visitGroup if you need groups in your report.
         visitor.visitBundle(bundleCoverage, new DirectorySourceFileLocator(
-                sourceDirectory, "utf-8", 4));
+                sourcesDirectory, "utf-8", 4));
 
         // Signal end of structure information to allow report to write all
         // information out
@@ -99,8 +102,8 @@ public class ReportGenerator {
 
     }
 
-    private File currentReportDir() {
-        return new File(outputDirectory, String.valueOf(new Date().getTime()));
+    private File currentReportDir(final long time) {
+        return new File(outputDirectory, String.valueOf(time));
     }
 
     private void loadExecutionData(byte[] executionData) throws IOException {
@@ -108,13 +111,13 @@ public class ReportGenerator {
         execFileLoader.load(new ByteArrayInputStream(executionData));
     }
 
-    private IBundleCoverage analyzeStructure() throws IOException {
+    private IBundleCoverage analyzeStructure(final String name) throws IOException {
         final CoverageBuilder coverageBuilder = new CoverageBuilder();
         final Analyzer analyzer = new Analyzer(
                 execFileLoader.getExecutionDataStore(), coverageBuilder);
 
-        analyzer.analyzeAll(classesDirectory);
+        analyzer.analyzeAll(classesJar);
 
-        return coverageBuilder.getBundle(title);
+        return coverageBuilder.getBundle(name);
     }
 }
