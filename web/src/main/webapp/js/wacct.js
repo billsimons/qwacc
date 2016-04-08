@@ -1,17 +1,8 @@
 function captureData(event) {
     $.blockUI();
-    var url = 'rest/capture';
-    var jqxhr = $.post(url, "");
 
-    jqxhr.success(function (result) {
-        alert("ajax success");
-    });
-    jqxhr.error(function () {
-        alert("ajax error");
-    });
-    jqxhr.complete(function () {
+    $.post('rest/capture', function (data) {
         $.unblockUI();
-        alert("Capture Successful");
         displayCoverageList();
     });
 }
@@ -20,7 +11,6 @@ function resetData(event) {
     $.blockUI();
     $.post('rest/reset', function (data) {
         $.unblockUI();
-        alert("Reset Successful");
     });
 }
 
@@ -36,6 +26,7 @@ function displayCoverageList() {
             console.log(val.name);
             var url = "#"+val.context;
             out += " <li><a href='"+url+"'> " + val.name + "</a></li> ";
+            console.log(out);
         });
 
         out += " </ul> </div>";
