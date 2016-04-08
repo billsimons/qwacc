@@ -1,16 +1,13 @@
 function captureData(event) {
-    $.blockUI();
+    //$.blockUI();
     $.ajax({
         url: 'rest/capture',
         type: 'POST',
         dataType: 'json',
         data: '',
         success: function (data) {
-            $.unblockUI();
+            //$.unblockUI();
             alert("Capture Successful");
-        },
-        error: function (xhr, status, error) {
-            alert("There was a problem with the report.");
         }
     })
 }
@@ -23,11 +20,8 @@ function resetData(event) {
         dataType: 'json',
         data: '',
         success: function (data) {
-            $.unblockUI();
+            //$.unblockUI();
             alert("Reset Successful");
-        },
-        error: function (xhr, status, error) {
-            alert("There was a problem resetting the report.");
         }
     })
 }
