@@ -37,4 +37,10 @@ public class WacctResource {
         service.resetExecutionData();
         return Response.ok().build();
     }
+
+    //TODO
+    //show list available reports
+    //delete report?
+    //what's the best way to return report?  just redirect?
+    //can we collect aggregate data over time? is that useful?
 }
