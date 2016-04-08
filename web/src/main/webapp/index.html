@@ -80,6 +80,7 @@
             box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
             border: 1px solid #257C9E;
             font-size: 15px;
+            margin: 0 20px 10px 0;
         }
         .form-style input[type="button"]:hover,
         .form-style input[type="submit"]:hover{
@@ -87,6 +88,52 @@
             -moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
             -webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
             box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.28);
+        }
+
+
+
+        .coverageList {
+            width: 300px;
+            margin-top: 20px;
+        }
+
+        h2 {
+            font: 400 25px/1.5 Helvetica, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+            border-bottom: 1px solid #ccc;
+        }
+
+        li:last-child {
+            border: none;
+        }
+
+        li a {
+            text-decoration: none;
+            color: #000;
+            display: block;
+            width: 200px;
+
+            -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+            -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+            -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+            -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+            transition: font-size 0.3s ease, background-color 0.3s ease;
+        }
+
+        li a:hover {
+            font-size: 30px;
+            background: #f6f6f6;
         }
     </style>
 </head>
@@ -98,6 +145,7 @@
             <input type="button" value="Capture Data" onclick="javascript:captureData(event);"/>
             <input type="button" value="Reset" onclick="javascript:resetData(event);"/>
         </div>
+        <div id="coverageList" class="coverageList" style="display: none;"> </div>
     </form>
 </div>
 
