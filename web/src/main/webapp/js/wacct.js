@@ -19,12 +19,10 @@ function displayCoverageList() {
         var out = "<div> <h2>Coverage List</h2> <ul> ";
         $.each(data, function (key, val) {
             var url = "/"+val.context+"/"+val.name;
-            out += " <li><a href='"+url+"'> " + val.name + "</a></li> ";
-            console.log(out);
+            out += " <li><a href='"+url+"'> " + new Date(val.name) + "</a></li> ";
         });
 
         out += " </ul> </div>";
-        console.log(out);
         $("#coverageLists").html(out);
         $("#coverageLists").css({display: 'block'});
     });
