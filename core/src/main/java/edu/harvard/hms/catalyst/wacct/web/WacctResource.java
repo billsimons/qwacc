@@ -3,6 +3,7 @@ package edu.harvard.hms.catalyst.wacct.web;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.jersey.spi.resource.Singleton;
+import edu.harvard.hms.catalyst.wacct.service.ReportTuple;
 import edu.harvard.hms.catalyst.wacct.service.WacctService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author Bill Simons
@@ -51,7 +55,11 @@ public class WacctResource {
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
     public String listReports() {
-        return gson.toJson(service.listReports());
+        List<ReportTuple> reportTuples = service.listReports();
+
+        Collections.sort(reportTuples, (o1, o2) -> (int) (Long.valueOf(o2.getName()) - Long.valueOf(o1.getName())));
+
+        return gson.toJson(reportTuples);
     }
 
     //TODO
