@@ -2,7 +2,7 @@ function captureData(event) {
     $.blockUI();
     $.ajax({
         url: 'rest/capture',
-        type: 'GET',
+        type: 'POST',
         dataType: 'json',
         data: '',
         success: function (data) {
@@ -19,7 +19,7 @@ function resetData(event) {
     $.blockUI();
     $.ajax({
         url: 'rest/reset',
-        type: 'GET',
+        type: 'POST',
         dataType: 'json',
         data: '',
         success: function (data) {
