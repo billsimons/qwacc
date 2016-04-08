@@ -19,7 +19,6 @@ import java.io.IOException;
  * @author Bill Simons
  */
 @Path("/")
-@Produces(MediaType.APPLICATION_JSON)
 @Singleton
 @Component
 public class WacctResource {
@@ -48,8 +47,9 @@ public class WacctResource {
         return Response.ok().build();
     }
 
-    @GET
+    @POST
     @Path("/list")
+    @Produces(MediaType.APPLICATION_JSON)
     public String listReports() {
         return gson.toJson(service.listReports());
     }
