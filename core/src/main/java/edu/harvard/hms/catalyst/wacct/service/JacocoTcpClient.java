@@ -5,6 +5,7 @@ import org.jacoco.core.runtime.RemoteControlReader;
 import org.jacoco.core.runtime.RemoteControlWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
@@ -25,7 +26,7 @@ public final class JacocoTcpClient {
     private int port;
 
     @Autowired
-    public JacocoTcpClient(@Qualifier("address") String address, @Qualifier("port") String port) {
+    public JacocoTcpClient(@Value("${wacct.address}") String address, @Value("${wacct.port}") String port) {
         this.address = address;
         this.port = Integer.parseInt(port);
     }

@@ -7,17 +7,6 @@
 
     <context:component-scan base-package="edu.harvard.hms.catalyst.wacct"/>
 
-    <!--TODO read these from properties-->
-    <!--<context:property-placeholder location="classpath:wacct.properties"/>-->
-
-    <bean name="address" class="java.lang.String">
-        <constructor-arg index="0" value="127.0.0.1"/>
-    </bean>
-    <bean name="port" class="java.lang.String">
-        <constructor-arg index="0" value="6300"/>
-    </bean>
-    <bean name="outputDirectory" class="java.lang.String">
-        <constructor-arg index="0" value="/Users/bsimons/qwacc/target/coveragereport"/>
-    </bean>
+    <context:property-placeholder location="classpath:wacct.properties"/>
 </beans>
 

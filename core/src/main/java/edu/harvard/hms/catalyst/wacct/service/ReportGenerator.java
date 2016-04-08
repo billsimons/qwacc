@@ -20,6 +20,7 @@ import org.jacoco.report.IReportVisitor;
 import org.jacoco.report.html.HTMLFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -46,7 +47,7 @@ public class ReportGenerator {
      * @param outputDirectoryName
      */
     @Autowired
-    public ReportGenerator(@Qualifier("outputDirectory") String outputDirectoryName) {
+    public ReportGenerator(@Value("${wacct.outputDirectory}") String outputDirectoryName) {
         this.classesDirectory = new File("/Users/bsimons/.m2/repository/edu/harvard/catalyst/scheduler/scheduler-core/2.17.0/scheduler-core-2.17.0.jar");
         this.sourceDirectory = new File("/Users/bsimons/scheduler/scheduler/target/");
         this.outputDirectory = new File(outputDirectoryName);

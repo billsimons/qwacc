@@ -8,14 +8,10 @@
         <version>0.1-SNAPSHOT</version>
     </parent>
     <name>WACCT Core</name>
-    <properties>
-        <jersey-version>1.19</jersey-version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>3.2.13.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>com.sun.jersey.contribs</groupId>
