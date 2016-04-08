@@ -15,23 +15,17 @@ function resetData(event) {
 }
 
 function displayCoverageList() {
-    var out = "<div> <h2>Coverage List</h2> ";
     $.post('rest/list', function (data) {
-        console.log(data);
-
-        out +=  " <ul> " +
-
+        var out = "<div> <h2>Coverage List</h2> <ul> ";
         $.each(data, function (key, val) {
-            console.log(val.context);
-            console.log(val.name);
-            var url = "#"+val.context;
+            var url = "#"+val.context+"/"+val.name;
             out += " <li><a href='"+url+"'> " + val.name + "</a></li> ";
             console.log(out);
         });
 
         out += " </ul> </div>";
         console.log(out);
-        $("#coverageList").html(out);
-        $("#coverageList").css({display: 'block'});
+        $("#coverageLists").html(out);
+        $("#coverageLists").css({display: 'block'});
     });
 }
