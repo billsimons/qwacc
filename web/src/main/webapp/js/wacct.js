@@ -39,6 +39,7 @@ function displayCoverageList() {
         });
 
         out += " </ul> </div>";
+        console.log(out);
         $("#coverageList").html(out);
         $("#coverageList").css({display: 'block'});
     });
